@@ -24,13 +24,70 @@ struct GameView: View {
                     game.player1.isCurrent = true
                 }
                 .buttonStyle(PlayerButtonStyle(isCurrent: game.player1.isCurrent))
+                
                 Button(game.player2.name){
                     game.player2.isCurrent = true
+                    if game.gameType == .bot
+                    {
+                        Task{
+                            await game.deviceMove()
+                        }
+                    }
                 }
                 .buttonStyle(PlayerButtonStyle(isCurrent: game.player2.isCurrent))
                 
                 
             }
+            .disabled(game.gameStarted)
+            //creating a gameboard
+            VStack{
+                HStack{
+                    ForEach(0...2,id:\.self){
+                        index in SquareView(index: index)
+                    } //for loop
+                }
+                
+                HStack{
+                    ForEach(3...5,id:\.self){
+                        index in SquareView(index: index)
+                    }
+                }
+                
+                HStack{
+                    ForEach(6...8,id:\.self){
+                        index in SquareView(index: index)
+                    }
+                }
+            }
+            .disabled(game.boardDisabled)
+            .overlay{
+                if game.isThinking{
+                    VStack{
+                        Text("Thinking...")
+                            .foregroundColor(Color(.systemBackground))
+                            .background(Rectangle().fill(Color.primary))
+                        ProgressView()
+                    }
+                }
+            }
+            VStack{
+                //result layout of UI
+                if game.gameOver{
+                    Text("Game Over")
+                    if game.possibleMoves.isEmpty{
+                        Text("It's a draw!")
+                    }
+                    else{
+                        Text("\(game.currentPlayer.name) wins")
+                    }
+                    Button("New Game"){
+                        game.reset()
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
+            }
+            .font(.largeTitle)
+            Spacer()
         }.toolbar{
             ToolbarItem(placement: .navigationBarTrailing)
             {
@@ -42,6 +99,7 @@ struct GameView: View {
             }
         }
         .navigationTitle("Cross Over")
+        .onAppear{game.reset()}
         .inNavigationStack()
     }
 }
