@@ -20,7 +20,8 @@ struct GameSquare{
     }
     static var reset:[GameSquare]{
         var squares=[GameSquare]()
-            for index in 1...9{
+        //MIDTERM EDIT - changed the range from 1-9 to 1-16 to accomodate for the extra tiles
+            for index in 1...16{
                 squares.append(GameSquare(id: index))
             }
             return squares

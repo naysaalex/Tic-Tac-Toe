@@ -40,21 +40,28 @@ struct GameView: View {
             }
             .disabled(game.gameStarted)
             //creating a gameboard
+            //MIDTERM EDIT - range of 4 #s in the for each rather than 3
             VStack{
                 HStack{
-                    ForEach(0...2,id:\.self){
+                    ForEach(0...3,id:\.self){
                         index in SquareView(index: index)
                     } //for loop
                 }
                 
                 HStack{
-                    ForEach(3...5,id:\.self){
+                    ForEach(4...7,id:\.self){
                         index in SquareView(index: index)
                     }
                 }
                 
                 HStack{
-                    ForEach(6...8,id:\.self){
+                    ForEach(8...11,id:\.self){
+                        index in SquareView(index: index)
+                    }
+                }
+                //MIDTERM EDIT - added an additional HStack to complete the last row of the 4x4
+                HStack{
+                    ForEach(12...15,id:\.self){
                         index in SquareView(index: index)
                     }
                 }

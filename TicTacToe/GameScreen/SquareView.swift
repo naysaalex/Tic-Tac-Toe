@@ -19,7 +19,8 @@ struct SquareView: View {
         }label:{
             game.gameBoard[index].image
                 .resizable()
-                .frame(width:100, height: 100)
+            //MIDTERM EDIT - changed the width and height to 75 so there was enough room for all the additional tiles
+                .frame(width:75, height: 75)
                 .border(.primary)
         }
         .disabled(game.gameBoard[index].player != nil)//nil is null
